@@ -22,6 +22,7 @@ const TipsCalculator = () => {
     setTipByPerson(titByPer);
   }, [inputsInObject]);
 
+  console.log(tipByPerson);
   return (
     <div className="bg-teal-50 w-[100%] h-[70rem] m-0">
       <div className="flex flex-cols-1 justify-center pt-16">
