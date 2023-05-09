@@ -9,11 +9,11 @@ const InputBill = () => {
   const handleClick = (event) => {
     const amountBill = event.target.value.trim();
     setinputsInObject((prev) => ({ ...prev, bill: amountBill }));
-    console.log(amountBill);
+
     if (isNaN(amountBill)) {
-      setError('Моля, въведете число.');
-    } else if (amountBill < 0) {
-      setError('Моля, въведете положително число.');
+      setError(`Please enter a number`);
+    } else if (amountBill <= 0) {
+      setError(`Can/'t be zero`);
     } else {
       setError('');
     }
@@ -24,8 +24,10 @@ const InputBill = () => {
   }
   return (
     <div>
+      <p>Bill</p>
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <input
+        className=" bg-url(./src/feature-tips-calculator/images/icon-dollar.svg) w-9 h-9"
         type="text"
         id="bill"
         name="bill"
