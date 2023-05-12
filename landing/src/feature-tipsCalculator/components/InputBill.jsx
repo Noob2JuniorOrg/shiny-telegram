@@ -1,10 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import { TipsContext as BillConext } from '../Tips_Calculator';
 
 const InputBill = () => {
   const { inputsInObject, setinputsInObject } = useContext(BillConext);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (inputsInObject.bill == 0) {
+      setError('');
+    }
+  }, [inputsInObject.bill]);
 
   const handleClick = (event) => {
     const amountBill = event.target.value.trim();
@@ -22,6 +28,7 @@ const InputBill = () => {
   if (inputsInObject.bill === 0) {
     inputsInObject.bill = '';
   }
+
   return (
     <div className="pb-10">
       <div className="flex justify-between">
