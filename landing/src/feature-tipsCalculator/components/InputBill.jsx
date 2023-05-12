@@ -32,7 +32,7 @@ const InputBill = () => {
   return (
     <div className="pb-10">
       <div className="flex justify-between">
-        <p className="pb-2 text-buttonOfCalculatorAndRightSideBackground">
+        <p className="pb-2 text-buttonOfCalculatorAndRightSideBackground font-bold">
           Bill
         </p>
         {error && <div style={{ color: 'red' }}>{error}</div>}
@@ -46,6 +46,7 @@ const InputBill = () => {
         />
 
         <input
+          inputMode="numeric"
           className=" bg-teal-50 rounded-md h-[48px] w-[100%] lg:h-[48px] text-2xl text-right pr-4 sm:h-[70px]"
           type="text"
           id="bill"
