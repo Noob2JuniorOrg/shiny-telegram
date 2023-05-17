@@ -4,32 +4,53 @@ import { TipsContext as PeopleContext } from '../Tips_Calculator';
 const Input = () => {
   const { inputsInObject, setinputsInObject } = useContext(PeopleContext);
   const [error, setError] = useState('');
+  const [people, setPeople] = useState(0);
 
   useEffect(() => {
-    if (inputsInObject.people === 0) {
-      setError('');
+    if (inputsInObject.people == 0) {
+      setPeople(0);
+      inputsInObject.people = '';
     }
   }, [inputsInObject.people]);
 
-  if (inputsInObject.people === 0) {
-    inputsInObject.people = '';
-    setError('');
-  }
-  const handleClick = (event) => {
-    let numberOfPeople = event.target.value.trim();
-    setinputsInObject((prev) => ({ ...prev, people: numberOfPeople }));
+  useEffect(() => {
+    if (/^[a-zA-Z]+$/.test(people)) {
+      setPeople(0);
+    }
+  }, [people]);
 
-    if (isNaN(numberOfPeople)) {
-      setError(`Please enter a number`);
-      numberOfPeople = 0;
-    } else if (numberOfPeople < 0) {
-      numberOfPeople = 0;
-      setError(`Can/'t be zero`);
-    } else {
+  useEffect(() => {
+    if (people == 0) {
       setError('');
     }
+  }, [people, inputsInObject.people]);
+
+  const handleClick = (event) => {
+    let numberOfPeople = event.target.value.trim();
+    setPeople(numberOfPeople);
   };
 
+  useEffect(() => {
+    let checkedValue;
+
+    if (isNaN(people)) {
+      setError(`Please enter a number`);
+    } else if (people < 0) {
+      setError(`Can't be negative`);
+    } else if (people === undefined) {
+      setError('');
+    } else {
+      checkedValue = people;
+      setinputsInObject((prev) => ({ ...prev, people: checkedValue }));
+      setError('');
+    }
+  }, [people]);
+
+  if (inputsInObject.people === 0) {
+    inputsInObject.people = '';
+  }
+
+  let value = inputsInObject.people === undefined ? '' : inputsInObject.people;
   return (
     <div>
       <div className="flex justify-between">
@@ -49,11 +70,11 @@ const Input = () => {
 
           <input
             inputMode="numeric"
-            className=" bg-teal-50 rounded-md h-[48px] w-[100%] lg:h-[48px] sm:h-[48px]  text-buttonOfCalculatorAndRightSideBackground  text-2xl text-right pr-4"
+            className=" bg-teal-50 rounded-md h-[48px] w-[100%] lg:h-[48px] text-2xl text-right pr-4 sm:h-[70px]"
             type="text"
             id="people"
             name="people"
-            value={inputsInObject.people}
+            value={value}
             onChange={handleClick}
           />
         </div>
