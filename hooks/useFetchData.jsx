@@ -28,7 +28,8 @@ function useFetchData(userName) {
         setError(true);
         console.log(error);
       });
-  }, []);
+  }, [userName]);
+
   if (fetchedData != null && !isLoading && error == false) {
     console.log(fetchedData);
     return fetchedData;
