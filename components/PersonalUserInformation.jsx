@@ -1,28 +1,33 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useContext, useEffect } from 'react';
+import { UserDataContext as UserCredentials } from '../GitHubFindDev';
 
-const PersonalUserInformation = (personalData) => {
-  let error;
-  const userCredentials = personalData.personalData;
-  if (userCredentials.loading == true) {
-    error = 'loading';
+const PersonalUserInformation = () => {
+  const userData = useContext(UserCredentials);
+  const image = userData.avatar;
+  if (userData === undefined || userData == null) {
+    console.log(typeof userData);
+    return;
   }
+  useEffect(() => {
+    if (userData == undefined || userData == null || userData.error == true) {
+      return;
+    }
+  }, [userData]);
+
   return (
     <div>
       <div>
-        <div>{error}</div>
-        <div>{userCredentials.avatar}</div>
-        <div>{userCredentials.name}</div>
-        <div>{userCredentials.login}</div>
-        <div>{userCredentials.timeStamp}</div>
+        <div className="w-[117px] h-[117px]">
+          <img src={image} />
+        </div>
+        <div>{userData.name}</div>
+        <div>{userData.login}</div>
+        <div>{userData.timeStamp}</div>
       </div>
       <div>
-        <div>{userCredentials.bio}</div>
+        <div>{userData.bio}</div>
       </div>
     </div>
   );
-};
-PersonalUserInformation.propTypes = {
-  personalData: PropTypes.object.isRequired,
 };
 export default PersonalUserInformation;
