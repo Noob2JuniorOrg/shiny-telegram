@@ -1,21 +1,25 @@
-import React, { useRef, useContext, useState, useEffect } from 'react';
+import React, { useRef, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { UserDataContext as UserError } from '../GitHubFindDev';
+
 const SearchBarAndSubmitButton = ({ getValue }) => {
   const inputRef = useRef(null);
   const userData = useContext(UserError);
-  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  console.log(`from search`);
+  console.log(userData);
 
   useEffect(() => {
-    if (userData.error) {
-      setErrorMessage('No results');
-      console.log(errorMessage);
+    if (userData.error == 'firstLoad') {
+      setErrorMessage('');
+    }
+    if (userData.error === true) {
+      setErrorMessage('No result');
     }
     if (!userData.error) {
       setErrorMessage('');
     }
   }, [userData.error]);
-
   const handleSubmit = () => {
     let value = inputRef.current.value.trim();
     getValue(value);

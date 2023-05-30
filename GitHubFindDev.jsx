@@ -1,56 +1,77 @@
 import React, { useEffect, useState, createContext } from 'react';
-import SearchBarAndSubmitButton from './components/SearchBar';
+import SearchBarAndSubmitButton from './components/InputSeach';
 import useFetchData from './hooks/useFetchData';
 import PersonalUserInformation from './components/PersonalUserInformation';
 import TableInformation from './components/TableInformation';
 import LinksAndLocation from './components/Links';
 
 export const UserDataContext = createContext();
-const initialState = {
-  name: null,
-  login: null,
-  timeStamp: null,
-  bio: null,
-  repos: null,
-  followers: null,
-  following: null,
-  location: null,
-  loading: null,
-  error: null,
-};
+const initialState = {};
 
 const GitHubFindDev = () => {
   const [inputValue, setInputValue] = useState('');
   const [userData, setUserData] = useState(initialState);
+  const [isInitial, setIsInitial] = useState(true);
+
+  const userDataObject = useFetchData(inputValue);
 
   const getValue = (value) => {
     setInputValue(value);
   };
-  const userDataObject = useFetchData(inputValue);
 
   useEffect(() => {
-    if (userDataObject.data == null || userDataObject.data == undefined) {
+    if (isInitial) {
+      setUserData(() => ({
+        name: 'The Octocat',
+        avatar: 'https://avatars.githubusercontent.com/u/583231?v=4',
+        login: 'octocat',
+        timeStamp: '2011-01-25',
+        bio: '',
+        repos: 8,
+        followers: 9350,
+        following: 9,
+        location: 'San Francisco',
+        error: 'firstLoad',
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userDataObject.data == null) {
       return;
     }
-    if (userDataObject.data.message == 'Not Found') {
-      userDataObject.error = true;
-    } else {
-      userDataObject.error = false;
+    if (userDataObject.data != null) {
+      setUserData(() => ({
+        name: userDataObject.data.name,
+        login: userDataObject.data.login,
+        avatar: userDataObject.data.avatar_url,
+        timeStamp: userDataObject.data.created_at,
+        bio: userDataObject.data.bio,
+        repos: userDataObject.data.public_repos,
+        followers: userDataObject.data.followers,
+        following: userDataObject.data.following,
+        location: userDataObject.data.location,
+        loading: userDataObject.loading,
+        error: userDataObject.error,
+      }));
     }
-    setUserData(() => ({
-      name: userDataObject.data.name,
-      login: userDataObject.data.login,
-      avatar: userDataObject.data.avatar_url,
-      timeStamp: userDataObject.data.created_at,
-      bio: userDataObject.data.bio,
-      repos: userDataObject.data.public_repos,
-      followers: userDataObject.data.followers,
-      following: userDataObject.data.following,
-      location: userDataObject.data.location,
-      loading: userDataObject.loading,
-      error: userDataObject.error,
-    }));
-  }, [userDataObject.data]);
+
+    if (userDataObject.data.message === 'Not Found') {
+      setUserData(() => ({
+        name: 'The Octocat',
+        avatar: 'https://avatars.githubusercontent.com/u/583231?v=4',
+        login: 'octocat',
+        timeStamp: '2011-01-25',
+        bio: '',
+        repos: 8,
+        followers: 9350,
+        following: 9,
+        location: 'San Francisco',
+        error: true,
+      }));
+      setIsInitial(false);
+    }
+  }, [userDataObject.data, isInitial]);
 
   return (
     <div className="flex justify-center mt-[10rem]">
