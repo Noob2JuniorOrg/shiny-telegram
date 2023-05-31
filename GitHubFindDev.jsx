@@ -6,17 +6,25 @@ import TableInformation from './components/TableInformation';
 import LinksAndLocation from './components/Links';
 
 export const UserDataContext = createContext();
+export const ThemeContext = createContext();
+
 const initialState = {};
+const initialTheme = 'light';
 
 const GitHubFindDev = () => {
   const [inputValue, setInputValue] = useState('');
   const [userData, setUserData] = useState(initialState);
+  const [theme, setTheme] = useState(initialTheme);
   const [isInitial, setIsInitial] = useState(true);
 
   const userDataObject = useFetchData(inputValue);
 
   const getValue = (value) => {
     setInputValue(value);
+  };
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
   useEffect(() => {
@@ -72,24 +80,75 @@ const GitHubFindDev = () => {
       setIsInitial(false);
     }
   }, [userDataObject.data, isInitial]);
+  const toggleDarkToLightStyleBackground =
+    theme === 'dark'
+      ? 'bg-gitDarkSpaceBackground'
+      : 'bg-gitLightSpaceBackground';
+  const toggleDarkToLightStyleContainers =
+    theme === 'dark'
+      ? ' bg-gitContainerBlackBackground text-white'
+      : 'bg-white text-gitTextOnLight';
 
   return (
-    <div className="flex justify-center mt-[10rem]">
-      <div className="w-[730px] h-[444px]">
-        <div className="flex justify-between ">
-          <div className=" ">devfinder</div>
-          <button className=" ">black</button>
+    <div
+      className={`flex justify-center pt-[10rem] h-[60rem] font-mono ${toggleDarkToLightStyleBackground}`}
+    >
+      <div
+        className={`w-[730px] h-[100px] ${toggleDarkToLightStyleContainers}`}
+      >
+        <div
+          className={`flex justify-between pb-6 ${toggleDarkToLightStyleBackground}`}
+        >
+          <div
+            className={`text-3xl font-black ${
+              theme === 'dark'
+                ? ' bg-gitDarkSpaceBackground text-white'
+                : 'bg-gitLightSpaceBackground text-black'
+            }`}
+          >
+            devfinder
+          </div>
+          <button
+            className={`flex justify-between  ${toggleDarkToLightStyleBackground}`}
+            onClick={toggleTheme}
+          >
+            {theme === 'dark' ? (
+              <div className="flex">
+                <p className="mt-[1rem]">Dark</p>
+                <img
+                  className="w-[20px] h-[20px] ml-2"
+                  src="src/feature-gitHub/assets/icon-sun.svg"
+                  alt=""
+                  srcSet=""
+                />
+              </div>
+            ) : (
+              <div className="flex">
+                <p className="mt-[1rem]">Light</p>
+                <img
+                  className="w-[20px] h-[20px] ml-2"
+                  src="src/feature-gitHub/assets/icon-moon.svg"
+                  alt=""
+                  srcSet=""
+                />
+              </div>
+            )}
+          </button>
         </div>
-        <div>
+        <div className={` ${toggleDarkToLightStyleBackground}`}>
           <UserDataContext.Provider value={userData}>
-            <div className="border-2 border-black ">
-              <SearchBarAndSubmitButton getValue={getValue} />
-            </div>
-            <div className="border-2 border-black ">
-              <PersonalUserInformation />
-              <TableInformation />
-              <LinksAndLocation />
-            </div>
+            <ThemeContext.Provider value={theme}>
+              <div className=" rounded-2xl shadow-2xl mb-8">
+                <SearchBarAndSubmitButton getValue={getValue} />
+              </div>
+              <div
+                className={`rounded-2xl shadow-2xl mt-6 p-6 h-[444px] ${toggleDarkToLightStyleContainers}`}
+              >
+                <PersonalUserInformation />
+                <TableInformation />
+                <LinksAndLocation />
+              </div>
+            </ThemeContext.Provider>
           </UserDataContext.Provider>
         </div>
       </div>
