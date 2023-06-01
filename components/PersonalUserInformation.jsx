@@ -30,7 +30,9 @@ const PersonalUserInformation = () => {
     <div className=" pt-3 sm:pt-6 pl-4 h-[95px] mb-[6rem]">
       <div className="grid lg:grid-cols-3 grid-cols-2">
         <div className=" w-[70px] h-[70px] sm:w-[117px] sm:h-[117px] rounded-full overflow-hidden col-start-1">
-          <img src={image} />
+          <a href={userData.urlUser} target="_blank" rel="noopener noreferrer">
+            <img src={image} alt="" />
+          </a>
         </div>
 
         <div className=" ml-[-3rem] sm:ml-[-5rem] pt-3 sm:pt-5 col-start-2">
@@ -45,7 +47,7 @@ const PersonalUserInformation = () => {
           <div className=" lg:hidden text-sm sm:text-base ">
             Joineed {formattedDate}
           </div>
-          <div className="lg:col-start-2 ml-[-6rem] md:col-start-1 pt-4 md:pt-8 md:ml-[-10rem] sm:ml-[-10rem] sm:pt-8 lg:ml-0 text-sm sm:text-base">
+          <div className="lg:col-start-2 ml-[-6rem] md:col-start-1 pt-4  sm:ml-[-10rem] lg:ml-0 text-sm sm:text-base">
             <div className="line-clamp-2  md:w-[493px] text-sm sm:text-base">
               {userData.bio ? userData.bio : 'This profile has no bio'}
             </div>
