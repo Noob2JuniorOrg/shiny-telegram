@@ -9,22 +9,10 @@ const InputBill = () => {
 
   useEffect(() => {
     if (inputsInObject.bill == 0) {
-      setBill(0);
       inputsInObject.bill = '';
-    }
-  }, [inputsInObject.bill]);
-
-  useEffect(() => {
-    if (/^[a-zA-Z]+$/g.test(bill)) {
-      setError(`Please enter a number`);
-    }
-  }, [bill]);
-
-  useEffect(() => {
-    if (bill == 0) {
       setError('');
     }
-  }, [bill, inputsInObject.bill]);
+  }, [inputsInObject]);
 
   const handleChange = (event) => {
     let billAmount = event.target.value.trim();
@@ -32,6 +20,9 @@ const InputBill = () => {
   };
 
   useEffect(() => {
+    if (/^[a-zA-Z]+$/g.test(bill)) {
+      setError(`Please enter a number`);
+    }
     if (isNaN(bill)) {
       setError(`Please enter a number`);
     } else if (bill < 0) {
@@ -48,7 +39,7 @@ const InputBill = () => {
     inputsInObject.bill = '';
   }
 
-  let value = inputsInObject.bill === undefined ? '' : inputsInObject.bill;
+  let value = bill == 0 ? '' : inputsInObject.bill;
   return (
     <div className="pb-10">
       <div className="flex justify-between">
