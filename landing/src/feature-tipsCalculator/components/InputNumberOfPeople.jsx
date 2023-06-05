@@ -8,22 +8,10 @@ const Input = () => {
 
   useEffect(() => {
     if (inputsInObject.people == 0) {
-      setPeople(0);
       inputsInObject.people = '';
-    }
-  }, [inputsInObject.people]);
-
-  useEffect(() => {
-    if (/^[a-zA-Z]+$/g.test(people)) {
-      setError(`Please enter a number`);
-    }
-  }, [people]);
-
-  useEffect(() => {
-    if (people == 0) {
       setError('');
     }
-  }, [people, inputsInObject.people]);
+  }, [inputsInObject]);
 
   const handleClick = (event) => {
     let numberOfPeople = event.target.value.trim();
@@ -31,8 +19,9 @@ const Input = () => {
   };
 
   useEffect(() => {
-    let checkedValue;
-
+    if (/^[a-zA-Z]+$/g.test(people)) {
+      setError(`Please enter a number`);
+    }
     if (isNaN(people)) {
       setError(`Please enter a number`);
     } else if (people < 0) {
@@ -40,8 +29,7 @@ const Input = () => {
     } else if (people === undefined) {
       setError('');
     } else {
-      checkedValue = people;
-      setinputsInObject((prev) => ({ ...prev, people: checkedValue }));
+      setinputsInObject((prev) => ({ ...prev, people: people }));
       setError('');
     }
   }, [people]);
@@ -50,7 +38,7 @@ const Input = () => {
     inputsInObject.people = '';
   }
 
-  let value = inputsInObject.people === undefined ? '' : inputsInObject.people;
+  let value = people === 0 ? '' : inputsInObject.people;
   return (
     <div>
       <div className="flex justify-between">
