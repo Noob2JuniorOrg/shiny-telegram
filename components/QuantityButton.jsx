@@ -1,11 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { QuantityContext } from '../EcommerceShop';
+import { InitialContext } from '../EcommerceShop';
 
 const QuantityButton = () => {
-  const { quantity, setQuantity } = useContext(QuantityContext);
+  const { initialStateObject, setinitialStateObject } =
+    useContext(InitialContext);
+
   const [inputQuantity, setInptQuantity] = useState(0);
+
   const handleMinusClick = () => {
-    if (quantity > 0) {
+    if (initialStateObject.quantity > 0) {
       setInptQuantity((prevCount) => prevCount - 1);
     }
   };
@@ -44,13 +47,16 @@ const QuantityButton = () => {
             />
           </div>
         </div>
-        <div className="w-[272px] h-[56px] bg-ecommerceOrangeColor hover:bg-hoverEcommerceOrangeColor flex justify-center rounded-xl text-white cursor-pointer">
-          <button
-            className=" flex justify-center pt-4"
-            onClick={() => {
-              setQuantity(inputQuantity);
-            }}
-          >
+        <div
+          className="w-[272px] h-[56px] bg-ecommerceOrangeColor hover:bg-hoverEcommerceOrangeColor flex justify-center rounded-xl text-white cursor-pointer"
+          onClick={() => {
+            setinitialStateObject((prev) => ({
+              ...prev,
+              quantity: inputQuantity,
+            }));
+          }}
+        >
+          <button className=" flex justify-center pt-4">
             <div>
               <img
                 src="src\feature-eCommerce\images\icon-cart.svg"
