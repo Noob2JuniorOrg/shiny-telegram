@@ -106,7 +106,7 @@ const Gallery = () => {
                     ></img>
                   </div>
                 </div>
-                <div className="flex mt-4 px-4 lg:ml-[5%] md:ml-10">
+                <div className="sm:flex mt-4 px-4 lg:ml-[5%] md:ml-10 hidden">
                   {thumbnailImages}
                 </div>
               </div>
@@ -115,18 +115,18 @@ const Gallery = () => {
         </div>
       )}
 
-      <div className="lg:w-[445px] lg:h-[565px] xl:w-[445px] xl:h-[565px] md:w-[345px] md:h-[465px]  mt-[-12rem]  lg:pl-16 md:pl-0">
+      <div className="lg:w-[445px] lg:h-[565px] xl:w-[445px] xl:h-[565px] md:w-[345px] md:h-[465px]  sm:mt-[-12rem]  mt-[-16rem] lg:pl-16 md:pl-0">
         <div>
-          <div className="w-[445px] h-[445px]">
+          <div className="sm:w-[445px] sm:h-[445px] w-screen h-[300px]">
             <img
-              className="rounded-2xl"
+              className="sm:rounded-2xl rounded-none"
               src="src\feature-eCommerce\images\image-product-1.jpg"
               alt=""
               srcSet=""
             />
           </div>
         </div>
-        <div className="flex justify-evenly mt-5 lg:ml-8 md:ml-[4rem]">
+        <div className="md:flex justify-evenly mt-5 lg:ml-8 md:ml-[4rem] hidden">
           {thumbnailImages}
         </div>
       </div>
