@@ -52,7 +52,7 @@ const Gallery = () => {
   const thumbnailImages = images.map((image, index) => (
     <img
       key={index}
-      className="lg:w-[88px] lg:h-[88px] md:w-[66px] md:h-[66px] rounded-xl cursor-pointer ml-6 hover:border-2 hover:border-ecommerceOrangeColor hover:opacity-60"
+      className="lg:w-[88px] lg:h-[88px] sm:w-[66px] sm:h-[66px] sm:ml-1 md:ml-5 rounded-xl cursor-pointer ml-6 hover:border-2 hover:border-ecommerceOrangeColor hover:opacity-60"
       src={image.thumbnail}
       alt="Gallery Image"
       onClick={() => getCurrentTargetImage(index)}
@@ -62,7 +62,7 @@ const Gallery = () => {
   return (
     <div>
       {isOpen && (
-        <div className=" fixed top-0 left-0 w-full h-full flex items-center justify-center ">
+        <div className=" fixed top-0 left-0 w-full h-full  items-center justify-center hidden sm:flex ">
           <div className="w-full h-full rounded-lg p-8 absolute top-0 left-0 bg-gray-800 bg-opacity-50">
             <div className="flex items-center justify-center ">
               <div className="relative">
@@ -78,7 +78,7 @@ const Gallery = () => {
                       srcSet=""
                     ></img>
                   </div>
-                  <div className="w-[550px]">
+                  <div className="md:w-[550px] sm:w-[450px]">
                     <div className="flex justify-end mb-3">
                       <img
                         className="w-8 cursor-pointer  text-orange-400"
@@ -88,7 +88,7 @@ const Gallery = () => {
                       />
                     </div>
                     <img
-                      className="w-[550px] rounded-xl"
+                      className="md:w-[550px] sm:w-[450px] rounded-xl"
                       src={images[currentImageIndex].origin}
                       alt="Gallery Image"
                     />
@@ -106,7 +106,7 @@ const Gallery = () => {
                     ></img>
                   </div>
                 </div>
-                <div className="sm:flex mt-4 px-4 lg:ml-[5%] md:ml-10 hidden">
+                <div className="sm:flex mt-4 px-4 lg:ml-[5%] sm:ml-[4rem] md:ml-10 hidden">
                   {thumbnailImages}
                 </div>
               </div>
@@ -116,17 +116,47 @@ const Gallery = () => {
       )}
 
       <div className="lg:w-[445px] lg:h-[565px] xl:w-[445px] xl:h-[565px] md:w-[345px] md:h-[465px]  sm:mt-[-12rem]  mt-[-16rem] lg:pl-16 md:pl-0">
-        <div>
-          <div className="sm:w-[445px] sm:h-[445px] w-screen h-[300px]">
+        <div className="sm:h-[445px] h-[calc(100vw-1px)]">
+          <div className="sm:w-[445px] sm:h-[445px] w-screen h-[300px] ">
+            <div className="sm:hidden">
+              <div
+                className="rounded-full bg-white w-[56px] h-[56px] flex justify-center cursor-pointer absolute inset-y-25 top-[45%] left-0"
+                onClick={goToPreviousImage}
+              >
+                <img
+                  className="w-[10px] h-[16px] mt-5"
+                  src="src\feature-eCommerce\images\icon-previous.svg"
+                  alt=""
+                  srcSet=""
+                ></img>
+              </div>
+              <img
+                src={images[currentImageIndex].origin}
+                alt=""
+                srcSet=""
+                className="]"
+              />
+              <div
+                className="rounded-full bg-white w-[56px] h-[56px] flex justify-center cursor-pointer absolute inset-y-25 top-[45%] right-0 "
+                onClick={goToNextImage}
+              >
+                <img
+                  className="w-[10px] h-[16px] mt-5  "
+                  src="src\feature-eCommerce\images\icon-next.svg"
+                  alt=""
+                  srcSet=""
+                ></img>
+              </div>
+            </div>
             <img
-              className="sm:rounded-2xl rounded-none"
+              className=" sm:rounded-2xl rounded-none sm:inline hidden "
               src="src\feature-eCommerce\images\image-product-1.jpg"
               alt=""
               srcSet=""
             />
           </div>
         </div>
-        <div className="md:flex justify-evenly mt-5 lg:ml-8 md:ml-[4rem] hidden">
+        <div className="sm:flex justify-between mt-5 md:ml-[2rem] sm:ml-12 lg:ml-0 hidden sm:w-[350px]">
           {thumbnailImages}
         </div>
       </div>
@@ -134,3 +164,4 @@ const Gallery = () => {
   );
 };
 export default Gallery;
+//pb-[calc(10%+35vw)]
