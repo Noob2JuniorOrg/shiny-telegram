@@ -4,11 +4,10 @@ import { InitialContext } from '../EcommerceShop';
 const Cart = () => {
   const { initialStateObject, setinitialStateObject } =
     useContext(InitialContext);
-
   const cartContentStyle = initialStateObject.isCartOpen
     ? 'opacity-100 relative z-20 flex justify-center'
     : 'opacity-0';
-  console.log(initialStateObject.isModal);
+
   const totalAmount = initialStateObject.quantity * 125.0;
   return (
     <div className={cartContentStyle}>
@@ -28,7 +27,7 @@ const Cart = () => {
                 <img
                   className="rounded"
                   src="src\feature-eCommerce\images\image-product-1-thumbnail.jpg"
-                  alt=""
+                  alt="Product_image"
                   srcSet=""
                 />
               </div>
@@ -49,24 +48,23 @@ const Cart = () => {
               >
                 <img
                   src="src\feature-eCommerce\images\icon-delete.svg"
-                  alt=""
+                  alt="delete"
                   srcSet=""
                 />
               </div>
             </div>
           )}
           {initialStateObject.quantity > 0 && (
-            <div className="w-[312px] h-[56px] bg-ecommerceOrangeColor hover:bg-hoverEcommerceOrangeColor text-white flex justify-center rounded-xl mt-7 ml-5">
-              <button
-                onClick={() =>
-                  setinitialStateObject((prev) => ({
-                    ...prev,
-                    quantity: 0,
-                  }))
-                }
-              >
-                Checkout
-              </button>
+            <div
+              className="w-[312px] h-[56px] bg-ecommerceOrangeColor hover:bg-hoverEcommerceOrangeColor   text-white flex justify-center rounded-xl mt-7 ml-5"
+              onClick={() =>
+                setinitialStateObject((prev) => ({
+                  ...prev,
+                  quantity: 0,
+                }))
+              }
+            >
+              <button>Checkout</button>
             </div>
           )}
         </div>
