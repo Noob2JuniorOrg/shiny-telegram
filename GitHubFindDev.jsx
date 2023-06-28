@@ -4,17 +4,26 @@ import useFetchData from './hooks/useFetchData';
 import PersonalUserInformation from './components/PersonalUserInformation';
 import TableInformation from './components/TableInformation';
 import LinksAndLocation from './components/Links';
-
 export const UserDataContext = createContext();
 export const ThemeContext = createContext();
 
-const initialState = {};
-const initialTheme = 'light';
+const dummyData = {
+  urlUser: 'https://github.com/octocat',
+  name: 'The Octocat',
+  avatar: 'https://avatars.githubusercontent.com/u/583231?v=4',
+  login: 'octocat',
+  timeStamp: '2011-01-25',
+  bio: '',
+  repos: 8,
+  followers: 9350,
+  following: 9,
+  location: 'San Francisco',
+};
 
 const GitHubFindDev = () => {
   const [inputValue, setInputValue] = useState('');
-  const [userData, setUserData] = useState(initialState);
-  const [theme, setTheme] = useState(initialTheme);
+  const [userData, setUserData] = useState({});
+  const [theme, setTheme] = useState('light');
   const [isInitial, setIsInitial] = useState(true);
 
   const userDataObject = useFetchData(inputValue);
@@ -31,16 +40,7 @@ const GitHubFindDev = () => {
     if (isInitial) {
       // on initial load, the context will have these values loaded, but will not cause any error
       setUserData(() => ({
-        urlUser: 'https://github.com/octocat',
-        name: 'The Octocat',
-        avatar: 'https://avatars.githubusercontent.com/u/583231?v=4',
-        login: 'octocat',
-        timeStamp: '2011-01-25',
-        bio: '',
-        repos: 8,
-        followers: 9350,
-        following: 9,
-        location: 'San Francisco',
+        ...dummyData,
         error: 'firstLoad',
       }));
     }
@@ -69,21 +69,28 @@ const GitHubFindDev = () => {
     }
 
     if (userDataObject.data.message === 'Not Found') {
-      // on error, the initial data will be reloaded again,
+      // on error, the dummy data will be reloaded again,
       // but this time an error will be thrown in the context object,
-      // which means that the user has entered wrong or invalid data, and such user does not have
+      // which means that the user has entered wrong or invalid data
       setUserData(() => ({
-        urlUser: 'https://github.com/octocat',
-        name: 'The Octocat',
-        avatar: 'https://avatars.githubusercontent.com/u/583231?v=4',
-        login: 'octocat',
-        timeStamp: '2011-01-25',
-        bio: '',
-        repos: 8,
-        followers: 9350,
-        following: 9,
-        location: 'San Francisco',
+        ...dummyData,
         error: true,
+      }));
+      setIsInitial(false);
+    }
+    if (userDataObject.data.message === 'Bad credentials') {
+      setUserData(() => ({
+        ...dummyData,
+        error: true,
+        expiredAPIkey: true,
+      }));
+      setIsInitial(false);
+    }
+    if (userDataObject.data.message === 'Service Unavailable') {
+      setUserData(() => ({
+        ...dummyData,
+        error: true,
+        serviceUnavailable: true,
       }));
       setIsInitial(false);
     }
@@ -98,16 +105,28 @@ const GitHubFindDev = () => {
       : 'bg-white text-gitTextOnLight';
 
   return (
-    <div
+    <main
       className={`flex justify-center pt-16 lg:pt-[10rem] lg:h-[75rem] lg:pb-[30rem] md:h-[70rem] md:pb-[30rem] sm:pb-[30rem] sm:h-[65rem] h-[55rem] pb-[35rem] md:pt-[10rem] sm:pt-[10rem] font-mono ${toggleDarkToLightStyleBackground}`}
     >
       <div
         className={` w-[330px] lg:w-[730px] md:w-[575px] sm:w-[575px]  ${toggleDarkToLightStyleContainers}`}
       >
+        {userData.expiredAPIkey ? (
+          <div className={toggleDarkToLightStyleBackground}>
+            Ooops..A problem has occurred, most likely due to a problem with API
+            key!
+          </div>
+        ) : null}
+        {userData.serviceUnavailable ? (
+          <div className={toggleDarkToLightStyleBackground}>
+            Ooops..503 Service Unavailable error status code try the request
+            again later!
+          </div>
+        ) : null}
         <div
           className={`flex justify-between pb-6 ${toggleDarkToLightStyleBackground}`}
         >
-          <div
+          <header
             className={`text-3xl font-black ${
               theme === 'dark'
                 ? ' bg-gitDarkSpaceBackground text-white'
@@ -115,7 +134,7 @@ const GitHubFindDev = () => {
             }`}
           >
             devfinder
-          </div>
+          </header>
           <button
             className={`flex justify-between  ${toggleDarkToLightStyleBackground}`}
             onClick={toggleTheme}
@@ -162,7 +181,7 @@ const GitHubFindDev = () => {
           </UserDataContext.Provider>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 
