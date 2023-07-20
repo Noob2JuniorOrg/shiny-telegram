@@ -1,9 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { InitialContext } from '../EcommerceShop';
-
+import { EcommerceContext } from '../context/EcommerceContextFile';
 const Header = () => {
-  const { initialStateObject, setinitialStateObject } =
-    useContext(InitialContext);
+  const { setcartStatus, quantity } = useContext(EcommerceContext);
   const [isCartHasBeenOpen, setIsCartHasBeenOpen] = useState(true);
   const [isMobileMenuOpen, setIsMenuOpen] = useState();
 
@@ -15,19 +13,14 @@ const Header = () => {
   //updating the context if the mobile menu is open, the shopping cart should close automatically
   useEffect(() => {
     if (isMobileMenuOpen) {
-      setinitialStateObject((prev) => ({
-        ...prev,
-        isCartOpen: false,
-      }));
+      setcartStatus('closed');
     }
   }, [isMobileMenuOpen]);
 
   const handleClick = () => {
     setIsCartHasBeenOpen(!isCartHasBeenOpen);
-    setinitialStateObject((prev) => ({
-      ...prev,
-      isCartOpen: isCartHasBeenOpen,
-    }));
+    let newStatus = isCartHasBeenOpen ? 'open' : 'closed';
+    setcartStatus(newStatus);
   };
 
   return (
@@ -62,7 +55,7 @@ const Header = () => {
             <div className="w-[50%] h-full bg-white pt-20">
               <button
                 onClick={toggleMenu}
-                className="absolute top-[2.5rem] left-[-15px] m-4 p-2 rounded-full text-black bg-white hover:bg-gray-200"
+                className="absolute top-[4.7rem] left-[-2px] m-4 p-2 rounded-full text-black bg-white hover:bg-gray-200"
               >
                 {isMobileMenuOpen ? (
                   <img
@@ -78,7 +71,7 @@ const Header = () => {
                   />
                 )}
               </button>
-              <div className="sm:flex sm:justify-between cursor-pointer lg:text-base md:px-3.5 pb-7 ml-5 pt-[4rem] md:text-sm sm:text-xs font-bold sm:px-2">
+              <div className="sm:flex sm:justify-between cursor-pointer lg:text-base md:px-3.5 pb-7 ml-7 pt-[6rem] md:text-sm sm:text-xs font-bold sm:px-2">
                 <div className="pt-2">Collections</div>
                 <div className="pt-2">Men</div>
                 <div className="pt-2">Woman</div>
@@ -104,11 +97,11 @@ const Header = () => {
           id="cart"
           onClick={handleClick}
         >
-          {initialStateObject.quantity > 0 && (
+          {quantity > 0 && (
             <div
               className={` w-[20px] h-[15px] absolute  bg-ecommerceOrangeColor text-white text-xs flex font-black rounded-xl justify-center`}
             >
-              {initialStateObject.quantity}
+              {quantity}
             </div>
           )}
           <img
