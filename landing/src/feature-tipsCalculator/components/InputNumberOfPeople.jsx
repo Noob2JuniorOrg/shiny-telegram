@@ -14,9 +14,9 @@ const InputPeople = () => {
     'people',
   ]);
 
-  let value = people === 0 ? '' : validInput;
+  let value = people == 0 ? '' : validInput;
   return (
-    <section>
+    <>
       <div className="flex justify-between">
         <p className="text-buttonOfCalculatorAndRightSideBackground font-bold">
           Number of People
@@ -43,7 +43,7 @@ const InputPeople = () => {
           />
         </div>
       </div>
-    </section>
+    </>
   );
 };
 
