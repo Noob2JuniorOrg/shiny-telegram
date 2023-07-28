@@ -8,8 +8,8 @@ const FetchAndUpdateContext = ({ userName }) => {
   const { userData, resetToDefaultValue, loadFetchedUser } =
     useContext(DataContext);
   const apiKey = import.meta.env.VITE_GITHUB_API_KEY;
-  const url = `https://api.github.com/users/${userName}`;
-  const data = useFetchData(url, apiKey);
+  const url = `https://api.github.com/users/`;
+  const data = useFetchData(url, userName, apiKey);
   useEffect(() => {
     if (data.data == null) {
       return;
@@ -47,7 +47,7 @@ const FetchAndUpdateContext = ({ userName }) => {
     }
   }, [data.loading]);
 
-  return <div></div>;
+  return <></>;
 };
 FetchAndUpdateContext.propTypes = {
   userName: PropTypes.string.isRequired,
