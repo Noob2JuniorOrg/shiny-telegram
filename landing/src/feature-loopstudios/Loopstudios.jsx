@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import Header from '../feature-loopstudios/components/Header';
 import Article from '../feature-loopstudios/components/Article';
 import Cards from '../feature-loopstudios/components/Cards';
@@ -12,13 +11,6 @@ const Loopstudios = () => {
       <Cards />
       <Footer />
     </main>
-=======
-const Loopstudios = () => {
-  return (
-    <div>
-      <div>Looooooooop Studios</div>
-    </div>
->>>>>>> aab3b73 (added basic configuration of new feature)
   );
 };
 export default Loopstudios;

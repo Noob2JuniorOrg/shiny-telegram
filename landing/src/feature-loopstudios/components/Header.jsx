@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import links from '../links';
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navLinkStyle = `font-sans font-base leading-8 border-b-[1px] border-transparent pt-1 hover:border-white  block mt-4 lg:inline-block lg:mt-0 text-white-200 mr-5 ${
@@ -58,26 +58,13 @@ const Header = () => {
             }`}
           >
             <div className="text-sm  lg:flex-grow text-white ">
-              <a href="#" className={navLinkStyle}>
-                About
-              </a>
-              <a href="#" className={navLinkStyle}>
-                Careers
-              </a>
-              <a href="#" className={navLinkStyle}>
-                LinkedIn
-              </a>
-              <a href="#" className={navLinkStyle}>
-                Events
-              </a>
-
-              <a href="#" className={navLinkStyle}>
-                Products
-              </a>
-
-              <a href="#" className={navLinkStyle}>
-                Support
-              </a>
+              {links.map((link) => {
+                return (
+                  <a key={Math.random()} href="#" className={navLinkStyle}>
+                    {link}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </nav>
@@ -91,7 +78,7 @@ const Header = () => {
             : 'text-3xl font-thin font-sans border border-white text-white w-[90%] h-[12.5rem] p-8 ml-[calc(10%-1rem)] mt-[10rem] lg:w-[600px] lg:h-[300px] lg:ml-32 lg:text-7xl lg:mt-32 lg:p-10 md:h-[220px] md:w-[400px] md:ml-32 md:mr-24 md:text-4xl md:p-10 md:mt-[6rem] sm:mt-[2rem]'
         }
       >
-        IMMERSIVE EXPERIENCES THAT DELIVER
+        <p>IMMERSIVE EXPERIENCES THAT DELIVER</p>
       </div>
     </nav>
   );
